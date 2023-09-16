@@ -1,53 +1,122 @@
-<!DOCTYPE HTML>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Gard Zeringue</title>
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-	<meta charset="UTF-8">
-	<!-- Font -->
-	<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700%7CPoppins:400,500" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Futuristic Terminal Resume</title>
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #1a1a1a;
+            color: #00ff66;
+            margin: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
 
-	<link href="03-comming-soon/css/styles.css" rel="stylesheet">
-	<link href="03-comming-soon/css/responsive.css" rel="stylesheet">
+        .terminal {
+            background-color: #1a1a1a;
+            border: 2px solid #00ff66;
+            padding: 20px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0px 0px 20px rgba(0, 255, 102, 0.8);
+            line-height: 1.6;
+            font-size: 14px;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .command {
+            color: #00ff66;
+        }
+
+        .resume-content {
+            margin-top: 10px;
+            padding-left: 15px;
+        }
+
+        /* Modern and translucent button styles */
+        .modern-button {
+            background-color: rgba(0, 255, 102, 0.6);
+            border: none;
+            color: #1a1a1a;
+            padding: 8px 16px; /* Adjust padding to make the buttons smaller */
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 12px; /* Adjust font size to make the buttons smaller */
+            margin: 5px;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: background-color 0.3s ease;
+        }
+
+        .modern-button:hover {
+            background-color: rgba(0, 255, 102, 0.8);
+        }
+    </style>
 </head>
 <body>
-	
-	<div class="main-area center-text" style="background-image:url(images/tree.jpg);">
-		
-		<div class="display-table">
-			<div class="display-table-cell">
-				
-				<h1 class="title font-white"><b>Coming Soon</b></h1>
-				<p class="desc font-white">Happiness is not the absence of problems, it is the ability to deal with them. Feeling sad after making a 
-										decision, doesnt mean it was the wrong decision. You're not stressed because you're doing too much
-										you're stressed because you're doing too little of what makes you feel most alive. The lesson
-										you struggle with will repeat itself until you learn from it. Always rememebr the best time to plant
-										a tree was 20 years ago, the second best time is today.
-											</p>
-											<b></b>
-											<p class="desc font-white">(Résumé may not be up to date)</p>
-				
-				<a class="notify-btn" button style="margin:5px;width:150px;" href="https://github.com/gardmz"><b>GITHUB</b></a>
-				
-				<a class="notify-btn" button style="margin:5px;width:150px;" href="images/GARD_ZERINGUE_RESUME_2022.pdf"><b>RÉSUMÉ</b></a>
-				
-				<br>
-				
-				<a class="notify-btn" button style="margin:5px;width:150px;" href="https://gardzeringue.com/Meditation.html"><b>MEDITATION</b></a>
-				
-				<a class="notify-btn" button style="margin:5px;width:150px;" href="https://gardzeringue.com/fireworks.html"><b>FIREWORKS</b></a>
-
-				<!--<ul class="social-btn font-white">
-					<li><a href="#">facebook</a></li>
-					<li><a href="#">twitter</a></li>
-					<li><a href="#">google</a></li>
-					<li><a href="#">instagram</a></li>
-				</ul><-- social-btn -->
-				
-			</div>
-		</div>
-	</div>
-	
+<div class="terminal">
+    <span class="command">$</span> <span class="command">cat</span> resume.txt<br>
+    <div class="resume-content">
+        <p>
+            <span style="color: #bb86fc;">Gard Zeringue</span><br>
+            <span style="color: #8be9fd;">2232 Tanglewood Cir NE Atlanta, GA 30345</span><br>
+            <span style="color: #8be9fd;">gardzeringue@gmail.com</span><br>
+            <span style="color: #8be9fd;">(404) 844-7376</span>
+        </p>
+        <hr style="border-color: #44475a;">
+        <p style="color: #8be9fd;">
+            <span style="color: #bd93f9;">Summary:</span><br>
+            I am a results-driven Software Engineer with a diverse background in software development and a passion for creating innovative solutions. With experience ranging from low-code development to full-stack web application design, I bring a dynamic skill set to every project. My ability to understand customer needs and convert them into actionable solutions has been honed through my professional journey
+        </p>
+        <p style="color: #8be9fd;">
+            <span style="color: #bd93f9;">Experience:</span><br>
+            - <span style="color: #50fa7b;">Software Development Engineer</span> @ <span style="color: #8be9fd;">General Motors Financial</span><br>
+            <span style="color: #8be9fd;">April 2023 - Present</span><br>
+            &nbsp;&nbsp;<span style="color: #8be9fd;">Implement business rules and functional enhancements leveraging JavaScript and related administrative configurations. Maintain or update automated unit tests and acceptance test suites, and leverage peer reviews to increase product quality. Implement business software and provide systems administration set-up and configuration. Understand customer needs to provide innovative solutions and recommend system, product, and process enhancements. </span><br>
+            <button class="modern-button">JavaScript</button><button class="modern-button">C#</button><button class="modern-button">MySQL</button><button class="modern-button">Agile</button><br>
+            - <span style="color: #50fa7b;">Software Development Engineer</span> @ <span style="color: #8be9fd;">Ansco & Associates</span><br>
+            <span style="color: #8be9fd;">March 2021 - April 2023</span><br>
+            &nbsp;&nbsp;<span style="color: #8be9fd;">Design and build technical solutions based on business needs and drivers.  Identify, evaluate, and fix application performance bottlenecks.  Planning and managing project development in accordance with Agile methodologies.  Communicate directly with project managers and stakeholders. Build flexible data models and seamless integration points for in app usage. </span><br>
+            <button class="modern-button">C#</button><button class="modern-button">Outsystems</button><button class="modern-button">Quickbase</button><button class="modern-button">JavaScript</button><button class="modern-button">Agile</button><br>
+            - <span style="color: #50fa7b;">Software Engineer Intern</span> @ <span style="color: #8be9fd;">Robins Air Force Base</span><br>
+            <span style="color: #8be9fd;">January 2020 - December 2020</span><br>
+            &nbsp;&nbsp;<span style="color: #8be9fd;">Collaborated with experienced cross-disciplinary teammates to design and build innovative products and services for stakeholders.  Created solutions to test cases on distributed systems with exposure to innovative technologies while working in an agile environment to deliver high-quality software. </span><br>
+            <button class="modern-button">Appian</button><button class="modern-button">MySQL</button><button class="modern-button">Java</button><br>
+        </p>
+        <p style="color: #8be9fd;">
+            <span style="color: #bd93f9;">Education:</span><br>
+            - <span style="color: #8be9fd;">Bachelor's Degree in Computer Science</span><br>
+            &nbsp;&nbsp;<span style="color: #8be9fd;">Georgia Southern University</span>
+        </p>
+        <p style="color: #8be9fd;">
+            <span style="color: #bd93f9;">Skills:</span><br>
+            - <span style="color: #50fa7b;">Web Development:</span> JavaScript, Python(for web frameworks), Java, TypeScript<br>
+            - <span style="color: #50fa7b;">Backend Development:</span> Java, Python, Ruby, PHP, Node.js, C#<br>
+            - <span style="color: #50fa7b;">Communication skills:</span> Team Collaboration, Technical Explanation, Documentation, Code Reviews, End User Meetings, Active Listening, Remote Communication
+        </p>
+		<p style="color: #8be9fd;">
+            <span style="color: #bd93f9;">Projects:</span><br>
+			
+			<a href="C:\Users\Gard\Desktop\testSites\terminalWindowResume\snakeMax.html">
+			<button class="modern-button">Snake</button>
+			</a>
+			
+			<a href="C:\Users\Gard\Desktop\testSites\terminalWindowResume\pong.html">
+			<button class="modern-button">Pong</button>
+			</a>
+			
+			<a href="C:\Users\Gard\Desktop\testSites\terminalWindowResume\tictactoe.html">
+			<button class="modern-button">Tic Tac Toe</button>
+			</a>
+        </p>
+    </div>
+    <span class="command">$</span> <span class="command">^C</span>
+</div>
 </body>
 </html>
