@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>CBB KenPom Team Lookup</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    }
+
+    body {
+      margin: 0;
+      padding: 2rem;
+      background: #0f172a;
+      color: #e5e7eb;
+    }
+
+    h1 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .app {
+      max-width: 900px;
+      margin: 0 auto;
+      background: #020617;
+      border-radius: 1rem;
+      padding: 1.5rem;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+      border: 1px solid #1f2937;
+    }
+
+    .inputs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .inputs > div {
+      flex: 1 1 200px;
+    }
+
+    label {
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #9ca3af;
+      display: block;
+      margin-bottom: 0.25rem;
+    }
+
+    input[type="text"] {
+      width: 100%;
+      padding: 0.5rem 0.75rem;
+      border-radius: 0.5rem;
+      border: 1px solid #374151;
+      background: #020617;
+      color: #e5e7eb;
+      outline: none;
+    }
+
+    input[type="text"]:focus {
+      border-color: #38bdf8;
+      box-shadow: 0 0 0 1px #38bdf8;
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      border-radius: 999px;
+      border: none;
+      cursor: pointer;
+      font-weight: 600;
+      background: linear-gradient(to right, #22c55e, #16a34a);
+      color: white;
+      margin-top: 1.35rem;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+      box-shadow: 0 10px 20px rgba(34,197,94,0.35);
+    }
+
+    button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 16px 30px rgba(34,197,94,0.45);
+    }
+
+    button:active {
+      transform: translateY(0);
+      box-shadow: 0 6px 12px rgba(34,197,94,0.4);
+    }
+
+    .message {
+      min-height: 1.2rem;
+      font-size: 0.85rem;
+      color: #f97316;
+      margin-bottom: 0.75rem;
+    }
+
+    .results {
+      display: grid;
+      gap: 1rem;
+    }
+
+    @media (min-width: 768px) {
+      .results {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    .card {
+      background: #020617;
+      border-radius: 0.75rem;
+      border: 1px solid #1f2937;
+      padding: 1rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-name {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .badge {
+      font-size: 0.75rem;
+      padding: 0.15rem 0.6rem;
+      border-radius: 999px;
+      border: 1px solid #4b5563;
+      color: #9ca3af;
+    }
+
+    .record {
+      font-size: 0.85rem;
+      color: #9ca3af;
+      margin-bottom: 0.75rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.8rem;
+    }
+
+    th, td {
+      padding: 0.25rem 0;
+    }
+
+    th {
+      text-align: left;
+      color: #9ca3af;
+      font-weight: 500;
+    }
+
+    td.value {
+      text-align: right;
+      color: #e5e7eb;
+    }
+
+    td.rank {
+      text-align: right;
+      color: #9ca3af;
+      font-size: 0.75rem;
+      padding-left: 0.5rem;
+    }
+
+    .stat-row {
+      border-bottom: 1px solid #111827;
+    }
+
+    .stat-row:last-child {
+      border-bottom: none;
+    }
+
+    .suggestions {
+      margin-top: 0.25rem;
+      font-size: 0.8rem;
+      color: #9ca3af;
+    }
+
+    .suggestions span {
+      background: #111827;
+      padding: 0.1rem 0.5rem;
+      border-radius: 999px;
+      margin-right: 0.25rem;
+      display: inline-block;
+      margin-top: 0.15rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <h1>CBB KenPom Team Lookup</h1>
+
+    <div class="inputs">
+      <div>
+        <label for="team1">Team 1</label>
+        <input id="team1" type="text" placeholder="e.g. Michigan" />
+      </div>
+      <div>
+        <label for="team2">Team 2</label>
+        <input id="team2" type="text" placeholder="e.g. Purdue" />
+      </div>
+      <div style="flex: 0 0 auto;">
+        <button id="searchBtn">Search</button>
+      </div>
+    </div>
+
+    <div id="message" class="message"></div>
+    <div id="suggestions" class="suggestions"></div>
+    <div id="results" class="results"></div>
+  </div>
+
+  <script>
+    let kenpomData = null;
+
+    async function loadKenpom() {
+      try {
+        const res = await fetch("kenpom.json");
+        if (!res.ok) throw new Error("Failed to load kenpom.json");
+        kenpomData = await res.json();
+      } catch (err) {
+        showMessage("Error loading kenpom.json: " + err.message);
+        console.error(err);
+      }
+    }
+
+    function showMessage(msg) {
+      document.getElementById("message").textContent = msg || "";
+    }
+
+    function showSuggestions(teamName) {
+      const container = document.getElementById("suggestions");
+      container.innerHTML = "";
+
+      if (!kenpomData || !teamName) return;
+
+      const query = teamName.toLowerCase();
+      const matches = Object.keys(kenpomData)
+        .filter(name => name.toLowerCase().includes(query))
+        .slice(0, 10);
+
+      if (matches.length === 0) return;
+
+      const label = document.createElement("div");
+      label.textContent = "Did you mean:";
+      container.appendChild(label);
+
+      matches.forEach(name => {
+        const chip = document.createElement("span");
+        chip.textContent = name;
+        chip.addEventListener("click", () => {
+          // Fill clicked suggestion into the first empty box or the one that was wrong
+          const t1 = document.getElementById("team1");
+          const t2 = document.getElementById("team2");
+          if (!t1.value) t1.value = name;
+          else if (!t2.value) t2.value = name;
+          else t1.value = name;
+          container.innerHTML = "";
+          showMessage("");
+        });
+        container.appendChild(chip);
+      });
+    }
+
+    function findTeam(teamName) {
+      if (!kenpomData) throw new Error("KenPom data not loaded yet.");
+
+      // exact key first
+      if (kenpomData[teamName]) return kenpomData[teamName];
+
+      const lower = teamName.toLowerCase();
+
+      // case-insensitive exact match
+      for (const key of Object.keys(kenpomData)) {
+        if (key.toLowerCase() === lower) {
+          return kenpomData[key];
+        }
+      }
+
+      return null;
+    }
+
+    function renderTeamCard(team) {
+      const card = document.createElement("div");
+      card.className = "card";
+
+      card.innerHTML = `
+        <div class="card-header">
+          <div class="team-name">${team.team}</div>
+          <div class="badge">${team.conf}</div>
+        </div>
+        <div class="record">Rank ${team.rk} • Record: ${team.record}</div>
+        <table>
+          <tbody>
+            <tr class="stat-row">
+              <th>AdjEM (NetRtg)</th>
+              <td class="value">${team.adjEm}</td>
+              <td class="rank"></td>
+            </tr>
+            <tr class="stat-row">
+              <th>AdjO (Off Rtg)</th>
+              <td class="value">${team.adjO}</td>
+              <td class="rank">#${team.adjORank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>AdjD (Def Rtg)</th>
+              <td class="value">${team.adjD}</td>
+              <td class="rank">#${team.adjDRank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>AdjT (Tempo)</th>
+              <td class="value">${team.adjT}</td>
+              <td class="rank">#${team.adjTRank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>Luck</th>
+              <td class="value">${team.luck}</td>
+              <td class="rank">#${team.luckRank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>SOS AdjEM</th>
+              <td class="value">${team.sosAdjEm}</td>
+              <td class="rank">#${team.sosRank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>OppO (Opp ORtg)</th>
+              <td class="value">${team.oppO}</td>
+              <td class="rank">#${team.oppORank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>OppD (Opp DRtg)</th>
+              <td class="value">${team.oppD}</td>
+              <td class="rank">#${team.oppDRank}</td>
+            </tr>
+            <tr class="stat-row">
+              <th>NCSOS</th>
+              <td class="value">${team.ncSos}</td>
+              <td class="rank">#${team.ncSosRank}</td>
+            </tr>
+          </tbody>
+        </table>
+      `;
+      return card;
+    }
+
+    function clearResults() {
+      document.getElementById("results").innerHTML = "";
+      document.getElementById("suggestions").innerHTML = "";
+    }
+
+    async function handleSearch() {
+      showMessage("");
+      clearResults();
+
+      const team1Name = document.getElementById("team1").value.trim();
+      const team2Name = document.getElementById("team2").value.trim();
+
+      if (!team1Name || !team2Name) {
+        showMessage("Please enter both team names.");
+        return;
+      }
+
+      if (!kenpomData) {
+        showMessage("KenPom data is still loading. Try again in a second.");
+        return;
+      }
+
+      const t1 = findTeam(team1Name);
+      const t2 = findTeam(team2Name);
+
+      if (!t1 || !t2) {
+        let msg = "Could not find: ";
+        const missing = [];
+        if (!t1) missing.push(`"${team1Name}"`);
+        if (!t2) missing.push(`"${team2Name}"`);
+        msg += missing.join(" and ") + ".";
+
+        showMessage(msg);
+
+        // show suggestions for the first missing team only
+        showSuggestions(!t1 ? team1Name : team2Name);
+        return;
+      }
+
+      const results = document.getElementById("results");
+      results.appendChild(renderTeamCard(t1));
+      results.appendChild(renderTeamCard(t2));
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      await loadKenpom();
+
+      document.getElementById("searchBtn").addEventListener("click", handleSearch);
+
+      // Allow Enter key to trigger search
+      document.getElementById("team1").addEventListener("keydown", e => {
+        if (e.key === "Enter") handleSearch();
+      });
+      document.getElementById("team2").addEventListener("keydown", e => {
+        if (e.key === "Enter") handleSearch();
+      });
+    });
+  </script>
+</body>
+</html>
